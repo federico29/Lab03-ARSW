@@ -18,36 +18,36 @@ Control de hilos con wait/notify. Productor/consumidor.
 
 1. Revise el funcionamiento del programa y ejecútelo. Mientras esto ocurren, ejecute jVisualVM y revise el consumo de CPU del proceso correspondiente. A qué se debe este consumo?, cual es la clase responsable?
 
-El alto consumo se debe a que el productor agrega a la cola demasiado lento a comparación del consumidor, lo cual ocaciona que el consumidor busque en la cola más veces
-de las que se necesita lo que aumenta significativamente el consumo de CPU.
+	El alto consumo se debe a que el productor agrega a la cola demasiado lento a comparación del consumidor, lo cual ocaciona que el consumidor busque en la cola más veces
+	de las que se necesita lo que aumenta significativamente el consumo de CPU.
 
-![](./img/rendimientoparte1punto1.PNG)
+	![](./img/rendimientoparte1punto1.PNG)
 
 La clase responsable de esto es Consumer.
 
 2. Haga los ajustes necesarios para que la solución use más eficientemente la CPU, teniendo en cuenta que -por ahora- la producción es lenta y el consumo es rápido. Verifique con JVisualVM que el consumo de CPU se reduzca.
 
-Se modificó el método run de la clase Consumer para que se consuma a la misma velocidad con la que el productor produce:
-```java
-@Override
-public void run() {
-    while (true) {
-        if (queue.size() > 0) {
-	    int elem=queue.poll();
-	    System.out.println("Consumer consumes "+elem);
-        }
-        try {
-	    Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-	    Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-}
-```
+	Se modificó el método run de la clase Consumer para que se consuma a la misma velocidad con la que el productor produce:
+	```java
+	@Override
+	public void run() {
+	    while (true) {
+		if (queue.size() > 0) {
+		    int elem=queue.poll();
+		    System.out.println("Consumer consumes "+elem);
+		}
+		try {
+		    Thread.sleep(1000);
+		} catch (InterruptedException ex) {
+		    Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	    }
+	}
+	```
 
-Después de esta modificación se aprecia que el consumo de CPU se reduce significativamente:
+	Después de esta modificación se aprecia que el consumo de CPU se reduce significativamente:
 
-![](./img/rendimientoparte1punto2.png)
+	![](./img/rendimientoparte1punto2.png)
 
 3. Haga que ahora el productor produzca muy rápido, y el consumidor consuma lento. Teniendo en cuenta que el productor conoce un límite de Stock (cuantos elementos debería tener, a lo sumo en la cola), haga que dicho límite se respete. Revise el API de la colección usada como cola para ver cómo garantizar que dicho límite no se supere. Verifique que, al poner un límite pequeño para el 'stock', no haya consumo alto de CPU ni errores.
 
