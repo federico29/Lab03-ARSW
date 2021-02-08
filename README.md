@@ -53,37 +53,37 @@ Después de esta modificación se aprecia que el consumo de CPU se reduce signif
 
 El ritmo de consumo sigue igual al punto anterior y se aumentó el ritmo de producción:
 
-	```java
-	@Override
-	    public void run() {
-		while (true) {
-		    if(queue.size()<stockLimit){
-			dataSeed = dataSeed + rand.nextInt(100);
-			synchronized (queue){
-			    queue.add(dataSeed);
-			}
-			System.out.println("Producer added " + dataSeed);
-		    }
-		    try {
-			Thread.sleep(100);
-		    } catch (InterruptedException ex) {
-			Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
-		    }
+```java
+@Override
+    public void run() {
+	while (true) {
+	    if(queue.size()<stockLimit){
+		dataSeed = dataSeed + rand.nextInt(100);
+		synchronized (queue){
+		    queue.add(dataSeed);
 		}
+		System.out.println("Producer added " + dataSeed);
 	    }
-	```
+	    try {
+		Thread.sleep(100);
+	    } catch (InterruptedException ex) {
+		Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+    }
+```
 
 Para garantizar el límite de Stock existe un constructor que tiene como parámetro la capacidad máxima de la cola  ```LinkedBlockingQueue(int capacity)``` pero no podemos poner el valor ```Long.MAX_VALUE``` con dicho constructor, por lo que para garantizar que no se exceda este límite se puso la siguiente condición:
 
-	```java
-	if(queue.size()<stockLimit){
-	    dataSeed = dataSeed + rand.nextInt(100);
-	    synchronized (queue){
-		queue.add(dataSeed);
-	    }
-	    System.out.println("Producer added " + dataSeed);
-	}
-	```
+```java
+if(queue.size()<stockLimit){
+    dataSeed = dataSeed + rand.nextInt(100);
+    synchronized (queue){
+	queue.add(dataSeed);
+    }
+    System.out.println("Producer added " + dataSeed);
+}
+```
 #### Parte II. – Antes de terminar la clase.
 
 Teniendo en cuenta los conceptos vistos de condición de carrera y sincronización, haga una nueva versión -más eficiente- del ejercicio anterior (el buscador de listas negras). En la versión actual, cada hilo se encarga de revisar el host en la totalidad del subconjunto de servidores que le corresponde, de manera que en conjunto se están explorando la totalidad de servidores. Teniendo esto en cuenta, haga que:
