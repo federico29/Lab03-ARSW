@@ -19,11 +19,10 @@ Control de hilos con wait/notify. Productor/consumidor.
 1. Revise el funcionamiento del programa y ejecútelo. Mientras esto ocurren, ejecute jVisualVM y revise el consumo de CPU del proceso correspondiente. A qué se debe este consumo?, cual es la clase responsable?
 
 	El alto consumo se debe a que el productor agrega a la cola demasiado lento a comparación del consumidor, lo cual ocaciona que el consumidor busque en la cola más veces
-	de las que se necesita lo que aumenta significativamente el consumo de CPU.
+	de las que se necesita lo que aumenta significativamente el consumo de CPU. La clase responsable de esto es Consumer.
 
 	![](./img/rendimientoparte1punto1.PNG)
 
-La clase responsable de esto es Consumer.
 
 2. Haga los ajustes necesarios para que la solución use más eficientemente la CPU, teniendo en cuenta que -por ahora- la producción es lenta y el consumo es rápido. Verifique con JVisualVM que el consumo de CPU se reduzca.
 
@@ -51,47 +50,47 @@ La clase responsable de esto es Consumer.
 
 3. Haga que ahora el productor produzca muy rápido, y el consumidor consuma lento. Teniendo en cuenta que el productor conoce un límite de Stock (cuantos elementos debería tener, a lo sumo en la cola), haga que dicho límite se respete. Revise el API de la colección usada como cola para ver cómo garantizar que dicho límite no se supere. Verifique que, al poner un límite pequeño para el 'stock', no haya consumo alto de CPU ni errores.
 
-El ritmo de consumo sigue igual al punto anterior y se aumentó el ritmo de producción:
+	El ritmo de consumo sigue igual al punto anterior y se aumentó el ritmo de producción:
 
-```java
-@Override
-    public void run() {
-	while (true) {
-	    if(queue.size()<stockLimit){
-		dataSeed = dataSeed + rand.nextInt(100);
-		synchronized (queue){
-		    queue.add(dataSeed);
+	```java
+	@Override
+	    public void run() {
+		while (true) {
+		    if(queue.size()<stockLimit){
+			dataSeed = dataSeed + rand.nextInt(100);
+			synchronized (queue){
+			    queue.add(dataSeed);
+			}
+			System.out.println("Producer added " + dataSeed);
+		    }
+		    try {
+			Thread.sleep(100);
+		    } catch (InterruptedException ex) {
+			Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+		    }
 		}
-		System.out.println("Producer added " + dataSeed);
 	    }
-	    try {
-		Thread.sleep(100);
-	    } catch (InterruptedException ex) {
-		Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+	```
+
+	Para garantizar el límite de Stock existe un constructor que tiene como parámetro la capacidad máxima de la cola  ```LinkedBlockingQueue(int capacity)``` pero no podemos poner el valor ```Long.MAX_VALUE``` con dicho constructor, por lo que para garantizar que no se exceda este límite se puso la siguiente condición:
+
+	```java
+	if(queue.size()<stockLimit){
+	    dataSeed = dataSeed + rand.nextInt(100);
+	    synchronized (queue){
+		queue.add(dataSeed);
 	    }
+	    System.out.println("Producer added " + dataSeed);
 	}
-    }
-```
+	```
 
-Para garantizar el límite de Stock existe un constructor que tiene como parámetro la capacidad máxima de la cola  ```LinkedBlockingQueue(int capacity)``` pero no podemos poner el valor ```Long.MAX_VALUE``` con dicho constructor, por lo que para garantizar que no se exceda este límite se puso la siguiente condición:
+	Rendimiento con la capacidad máxima igual a ```Long.MAX_VALUE```:
 
-```java
-if(queue.size()<stockLimit){
-    dataSeed = dataSeed + rand.nextInt(100);
-    synchronized (queue){
-	queue.add(dataSeed);
-    }
-    System.out.println("Producer added " + dataSeed);
-}
-```
+	![](./img/rendimientoparte1punto3.png)
 
-Rendimiento con la capacidad máxima igual a ```Long.MAX_VALUE```:
+	Rendimiento con la capacida máxima igual a 50:
 
-![](./img/rendimientoparte1punto3.png)
-
-Rendimiento con la capacida máxima igual a 50:
-
-![](./img/rendimientoparte1punto3capacidadminima.png)
+	![](./img/rendimientoparte1punto3capacidadminima.png)
 
 #### Parte II. – Antes de terminar la clase.
 
