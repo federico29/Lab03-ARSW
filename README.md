@@ -86,9 +86,13 @@ if(queue.size()<stockLimit){
 ```
 
 Rendimiento con la capacidad máxima igual a ```Long.MAX_VALUE```:
+
 ![](./img/rendimientoparte1punto3.png)
 
-Rendimiento con la capacida máxima igual a 
+Rendimiento con la capacida máxima igual a 50:
+
+![](./img/rendimientoparte1punto3capacidadminima.png)
+
 #### Parte II. – Antes de terminar la clase.
 
 Teniendo en cuenta los conceptos vistos de condición de carrera y sincronización, haga una nueva versión -más eficiente- del ejercicio anterior (el buscador de listas negras). En la versión actual, cada hilo se encarga de revisar el host en la totalidad del subconjunto de servidores que le corresponde, de manera que en conjunto se están explorando la totalidad de servidores. Teniendo esto en cuenta, haga que:
