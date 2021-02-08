@@ -101,6 +101,13 @@ Teniendo en cuenta los conceptos vistos de condición de carrera y sincronizaci�
 	En lugar de seguir realizando una cuenta separada para cada hilo, se llevó una cuenta en común utilizando una variable AtomicInteger que lleva las ocurrencias de la dirección IP que se buscó. Este tipo de variable es Thread Safety, lo que evita las condiciones de carrera, aumentando el rendimiento de nuestro programa.
 	Relizamos las pruebas con una dirección IP muy dispersa, los resultados fueron los siguientes:
 	
+	Ejecución del código antiguo:
+	
+	![](./img/pruebaViejoparte2.png)
+	
+	Ejecución luego de realizar las mejoras:
+	
+	![](./img/pruebaNuevoparte2.png)
 
 
 #### Parte II. – Avance para la siguiente clase
