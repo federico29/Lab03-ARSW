@@ -131,6 +131,7 @@ Sincronización y Dead-Locks.
 
 	El invariante no se cumple, con 3 inmortales la salud total debería ser de 300, pero hay momentos en los que este valor aumenta indefinidamente como se muestra en la siguiente imagen:
 	
+	![](./img/errorvidatotalparte3.png)
 
 4. Una primera hipótesis para que se presente la condición de carrera para dicha función (pause and check), es que el programa consulta la lista cuyos valores va a imprimir, a la vez que otros hilos modifican sus valores. Para corregir esto, haga lo que sea necesario para que efectivamente, antes de imprimir los resultados actuales, se pausen todos los demás hilos. Adicionalmente, implemente la opción ‘resume’.
 
