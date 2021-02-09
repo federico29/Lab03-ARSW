@@ -171,10 +171,32 @@ Sincronización y Dead-Locks.
 		}
 	}
 	```
+	
+	La región crítica que se identificó es el acceso a la población de inmortales por parte de cada inmortal, es región crítica ya que todos acceden y realizan modificaciones a los valores del arreglo de todos los inmortales sin estar sincronizados. Esta región crítica incluye el método fight que es donde se modifican los valores de los inmortales.
 
 7. Tras implementar su estrategia, ponga a correr su programa, y ponga atención a si éste se llega a detener. Si es así, use los programas jps y jstack para identificar por qué el programa se detuvo.
+	
+	Luego de implementar la estrategía se ejecutó el programa y no presentó ningún error, solo se detiene cuando se cierra la ventana.
 
 8. Plantee una estrategia para corregir el problema antes identificado (puede revisar de nuevo las páginas 206 y 207 de _Java Concurrency in Practice_).
+
+	La estrategía que se planteó es hacer uso de bloques sincronizados anidados, el bloque más grande va a sincronizar el acceso y la toma de datos de la lista de todos los inmortales, y dentro de este bloque irá otro que sincronizará el método fight, para que no haya condiciones de carrera al modificar la vida de los inmortales. El codigo es el siguiente:
+	```java
+	synchronized (immortalsPopulation){
+	    int myIndex = immortalsPopulation.indexOf(this);
+
+	    int nextFighterIndex = r.nextInt(immortalsPopulation.size());
+
+	    //avoid self-fight
+	    if (nextFighterIndex == myIndex) {
+		nextFighterIndex = ((nextFighterIndex + 1) % immortalsPopulation.size());
+	    }
+	    im = immortalsPopulation.get(nextFighterIndex);
+	    synchronized (im){
+		this.fight(im);
+	    }
+	}
+	```
 
 9. Una vez corregido el problema, rectifique que el programa siga funcionando de manera consistente cuando se ejecutan 100, 1000 o 10000 inmortales. Si en estos casos grandes se empieza a incumplir de nuevo el invariante, debe analizar lo realizado en el paso 4.
 
