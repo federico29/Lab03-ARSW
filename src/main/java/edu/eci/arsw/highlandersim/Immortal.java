@@ -53,10 +53,10 @@ public class Immortal extends Thread {
                 if (nextFighterIndex == myIndex) {
                     nextFighterIndex = ((nextFighterIndex + 1) % immortalsPopulation.size());
                 }
-
                 im = immortalsPopulation.get(nextFighterIndex);
-
-                this.fight(im);
+                synchronized (im){
+                    this.fight(im);
+                }
             }
 
             try {
