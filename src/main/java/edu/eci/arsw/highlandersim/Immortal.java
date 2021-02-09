@@ -17,6 +17,7 @@ public class Immortal extends Thread {
 
     private final Random r = new Random(System.currentTimeMillis());
 
+    private boolean movimiento;
 
     public Immortal(String name, List<Immortal> immortalsPopulation, int health, int defaultDamageValue, ImmortalUpdateReportCallback ucb) {
         super(name);
@@ -28,22 +29,35 @@ public class Immortal extends Thread {
     }
 
     public void run() {
-
+        movimiento=true;
         while (true) {
             Immortal im;
 
-            int myIndex = immortalsPopulation.indexOf(this);
+            synchronized (this){
+                while(movimiento==false){
+                    try {
+                        this.wait();
+                    } catch (InterruptedException interruptedException) {
+                        interruptedException.printStackTrace();
+                    }
+                }
 
-            int nextFighterIndex = r.nextInt(immortalsPopulation.size());
-
-            //avoid self-fight
-            if (nextFighterIndex == myIndex) {
-                nextFighterIndex = ((nextFighterIndex + 1) % immortalsPopulation.size());
             }
 
-            im = immortalsPopulation.get(nextFighterIndex);
+            synchronized (immortalsPopulation){
+                int myIndex = immortalsPopulation.indexOf(this);
 
-            this.fight(im);
+                int nextFighterIndex = r.nextInt(immortalsPopulation.size());
+
+                //avoid self-fight
+                if (nextFighterIndex == myIndex) {
+                    nextFighterIndex = ((nextFighterIndex + 1) % immortalsPopulation.size());
+                }
+
+                im = immortalsPopulation.get(nextFighterIndex);
+
+                this.fight(im);
+            }
 
             try {
                 Thread.sleep(1000);
@@ -73,6 +87,13 @@ public class Immortal extends Thread {
 
     public int getHealth() {
         return health;
+    }
+
+    public synchronized void setMovimiento(boolean movimiento){
+        this.movimiento=movimiento;
+        if (movimiento== true){
+            notifyAll();
+        }
     }
 
     @Override
