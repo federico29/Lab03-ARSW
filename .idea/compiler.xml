@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ConcurrentPrgExercises-Highlander-Prod-Cons" />
+        <module name="PiDigits" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ConcurrentPrgExercises-Highlander-Prod-Cons" target="1.8" />
+      <module name="PiDigits" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

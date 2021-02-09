@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ConcurrentPrgExercises-Highlander-Prod-Cons.iml" filepath="$PROJECT_DIR$/ConcurrentPrgExercises-Highlander-Prod-Cons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BlackList/PiDigits.iml" filepath="$PROJECT_DIR$/BlackList/PiDigits.iml" />
     </modules>
   </component>
 </project>
