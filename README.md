@@ -140,13 +140,12 @@ Sincronización y Dead-Locks.
 	```java
 	btnPauseAndCheck.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                /*
-				 * COMPLETAR
-                 */
                 int sum = 0;
+		//Se pausan todos los hilos
                 for (Immortal im : immortals) {
                     im.setMovimiento(false);
                 }
+		//Se realiza la sumatoria de la salud de cada hilo
                 for (Immortal im : immortals) {
                     sum += im.getHealth();
                 }
