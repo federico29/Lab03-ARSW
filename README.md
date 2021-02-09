@@ -202,17 +202,17 @@ Sincronización y Dead-Locks.
 
 	El invariante se cumplió al realizar cada una de las pruebas, sin importar el número de inmortales, la suma total de la salud de cada uno de ellos es coherente, a continuación los resultados:
 
-		Prueba con 100 inmortales:
+	Prueba con 100 inmortales:
 
-		![](./img/prueba100parte3.png)
+	![](./img/prueba100parte3.png)
 
-		Prueba con 1000 inmortales:
+	Prueba con 1000 inmortales:
 
-		![](./img/prueba1000parte3.png)
+	![](./img/prueba1000parte3.png)
 
-		Prueba con 10000 inmortales:
+	Prueba con 10000 inmortales:
 
-		![](./img/prueba10000parte3.png)
+	![](./img/prueba10000parte3.png)
 
 10. Un elemento molesto para la simulación es que en cierto punto de la misma hay pocos 'inmortales' vivos realizando peleas fallidas con 'inmortales' ya muertos. Es necesario ir suprimiendo los inmortales muertos de la simulación a medida que van muriendo. Para esto:
 	* Analizando el esquema de funcionamiento de la simulación, esto podría crear una condición de carrera? Implemente la funcionalidad, ejecute la simulación y observe qué problema se presenta cuando hay muchos 'inmortales' en la misma. Escriba sus conclusiones al respecto en el archivo RESPUESTAS.txt.
