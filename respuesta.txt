@@ -1,0 +1,4 @@
+Podría haber condición de carrera de modificación ya que mientras que
+los hilos que siguen vivos se sincronizan, aquellos que están
+muertos ya deberian eliminarse de la lista, para que no peleen por llo tanto se
+analizo y se eliminaron los muertos.
