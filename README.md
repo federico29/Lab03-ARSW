@@ -221,7 +221,7 @@ Sincronización y Dead-Locks.
     [Respuestas.txt](/respuesta.txt)
     
 11. Para finalizar, implemente la opción STOP.
-        ```java
+     ```java
         JButton btnStop = new JButton("STOP");
         btnStop.setForeground(Color.RED);
         toolBar.add(btnStop);
